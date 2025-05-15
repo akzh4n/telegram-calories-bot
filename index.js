@@ -2,13 +2,26 @@ require('dotenv').config();
 const { Telegraf } = require('telegraf');
 const { setupBot } = require('./src/bot');
 const logger = require('./src/utils/logger');
+const http = require('http');
 
-// Получение токена из переменных окружения
 const token = process.env.TELEGRAM_TOKEN;
 if (!token) {
   logger.error('TELEGRAM_TOKEN не найден в переменных окружения');
   process.exit(1);
 }
+
+const PORT = process.env.PORT || 3000;
+const server = http.createServer((req, res) => {
+  res.statusCode = 200;
+  res.setHeader('Content-Type', 'text/plain');
+  res.end('Бот "ИИ Калорий" работает!\n');
+});
+
+server.listen(PORT, () => {
+  logger.info(`HTTP-сервер запущен на порту ${PORT}`);
+});
+
+// Инициализация бота Telegram
 const bot = new Telegraf(token);
 
 setupBot(bot);
@@ -29,7 +42,7 @@ bot.launch()
     process.exit(1);
   });
 
-// Корректное завершение работы бота при остановке процесса
+
 process.once('SIGINT', () => {
   logger.info('Завершение работы бота (SIGINT)');
   bot.stop('SIGINT');
