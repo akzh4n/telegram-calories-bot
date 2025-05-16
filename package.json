@@ -1,5 +1,5 @@
 {
-  "name": "telegram-calorie-bot",
+  "name": "telegram-calories-bot",
   "version": "1.0.0",
   "description": "Телеграм бот для определения калорийности блюд по фото с использованием ИИ",
   "main": "index.js",
@@ -13,16 +13,20 @@
     "calories",
     "ai",
     "food",
-    "openai"
+    "gemini"
   ],
   "author": "",
   "license": "MIT",
   "dependencies": {
     "axios": "^1.6.2",
     "dotenv": "^16.3.1",
+    "express": "^4.21.2",
     "telegraf": "^4.15.0"
   },
   "devDependencies": {
     "nodemon": "^3.0.1"
+  },
+  "engines": {
+    "node": ">=16.0.0"
   }
 }
