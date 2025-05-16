@@ -1,6 +1,6 @@
-const { analyzeImageWithGemini } = require('../services/geminiService');
-const { downloadTelegramFile } = require('../utils/fileDownloader');
-const logger = require('../utils/logger');
+const { analyzeImageWithGemini } = require('./geminiService');
+const { downloadTelegramFile } = require('./utils/fileDownloader');
+const logger = require('./utils/logger');
 
 /**
  * @param {TelegrafContext} ctx - 

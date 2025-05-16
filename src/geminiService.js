@@ -1,7 +1,7 @@
 
 const axios = require('axios');
-const logger = require('../utils/logger');
-const { PROMPTS } = require('../utils/constants');
+const logger = require('./utils/logger');
+const { PROMPTS } = require('./utils/constants');
 
 const MAX_RETRIES = 3; 
 const RETRY_DELAY = 1000;
