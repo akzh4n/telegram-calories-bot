@@ -26,6 +26,7 @@ npm install
 ```
 TELEGRAM_TOKEN=your_telegram_bot_token
 GEMINI_API_KEY=your_gemini_api_key
+WEBHOOK_URL=your_url
 ```
 
 4. Run the bot
@@ -52,6 +53,7 @@ npm start
 
 The bot can be deployed to various free hosting platforms:
 - Render
+- Fly.io
 - Railway
 - Glitch
 

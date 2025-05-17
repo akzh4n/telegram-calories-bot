@@ -4,10 +4,10 @@ const { setupBot } = require('./src/bot');
 const logger = require('./src/utils/logger');
 const express = require('express');
 
-// Инициализация Express
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 8080;
 
+// Получение токена из переменных окружения
 const token = process.env.TELEGRAM_TOKEN;
 const webhookUrl = process.env.WEBHOOK_URL;
 
@@ -39,30 +39,28 @@ app.get('/', (req, res) => {
 async function startBot() {
   if (webhookUrl) {
     logger.info(`Настройка webhook по адресу: ${webhookUrl}`);
-    
-    const webhookPath = '/webhook';
-    await bot.telegram.setWebhook(`${webhookUrl}${webhookPath}`);
 
-    app.use(bot.webhookCallback(webhookPath));
+    await bot.telegram.setWebhook(webhookUrl);
     
-    app.listen(PORT, () => {
-      logger.info(`Сервер запущен на порту ${PORT}`);
-      logger.info(`Webhook настроен по адресу: ${webhookUrl}${webhookPath}`);
+    app.use(bot.webhookCallback('/webhook'));
+    
+    app.listen(PORT, '0.0.0.0', () => {
+      logger.info(`Сервер запущен на порту ${PORT} и слушает на всех интерфейсах`);
+      logger.info(`Webhook настроен по адресу: ${webhookUrl}`);
     });
   } else {
-    // Режим polling для разработки
     logger.info('Запуск бота в режиме polling (без webhook)');
     await bot.launch();
     logger.info('Бот "ИИ Калорий" успешно запущен в режиме polling!');
   }
 }
 
-// Запуск бота
 startBot().catch(err => {
   logger.error('Ошибка при запуске бота:', err);
   process.exit(1);
 });
 
+// Корректное завершение работы бота при остановке процесса
 const gracefulShutdown = () => {
   logger.info('Получен сигнал остановки, завершение работы...');
   
@@ -72,6 +70,7 @@ const gracefulShutdown = () => {
       .catch(err => logger.error('Ошибка при удалении webhook:', err))
       .finally(() => process.exit(0));
   } else {
+
     bot.stop('SIGTERM');
     process.exit(0);
   }
